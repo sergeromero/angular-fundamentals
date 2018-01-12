@@ -4,7 +4,8 @@ import { ISession } from '../shared/index';
 
 @Component({
     selector: 'selector-name',
-    templateUrl: './app/events/event-details/create-session.component.html'
+    templateUrl: './app/events/event-details/create-session.component.html',
+    styleUrls: ['./app/events/event-details/create-session.component.css']
 })
 
 export class CreateSessionComponent implements OnInit {
@@ -44,5 +45,6 @@ export class CreateSessionComponent implements OnInit {
              voters: []
          };
          console.log(session);
+         console.log(this.abstract);
      };
 };
