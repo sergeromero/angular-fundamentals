@@ -11,10 +11,12 @@ import { IEvent, ISession } from '../index';
 export class EventDetailsComponent implements OnInit {
     event: IEvent;
     addMode: boolean;
+    filterBy: string;
     
     constructor(private eventService: EventService, private route: ActivatedRoute) { };
 
     ngOnInit() {
+        this.filterBy = 'all';
         let id = +this.route.snapshot.params['id'];
         this.event = this.eventService.getEventBy(id);
      };
