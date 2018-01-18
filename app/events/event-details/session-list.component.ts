@@ -9,6 +9,7 @@ import { ISession } from '../shared/index';
 export class SessionListComponent implements OnInit, OnChanges {
     @Input() sessions: ISession[];
     @Input() filterBy: string;
+    @Input() sortBy: string;
     visibleSessions: ISession[] = [];
     
     constructor() { };
@@ -19,6 +20,9 @@ export class SessionListComponent implements OnInit, OnChanges {
         if(!this.sessions) return;
 
         this.filterSessions(this.filterBy);
+        this.sortBy === 'name' 
+            ? this.visibleSessions.sort(this.sortByNameAsc)
+            : this.visibleSessions.sort(this.sortByVotesDesc);
     };
 
     filterSessions(filter: string){
@@ -31,5 +35,15 @@ export class SessionListComponent implements OnInit, OnChanges {
                 return s.level.toLocaleLowerCase() === filter;
             });
         }
+    };
+
+    sortByNameAsc(x: ISession, y: ISession){
+        if(x.name > y.name) return 1;
+        else if(x.name === y.name) return 0;
+        else return -1;
+    };
+
+    sortByVotesDesc(x: ISession, y: ISession){
+        return y.voters.length - x.voters.length;
     };
 };
