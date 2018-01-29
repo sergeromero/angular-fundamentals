@@ -24,7 +24,8 @@ import {
     JQ_TOKEN, 
     TOASTR_TOKEN, 
     Toastr, 
-    CollapsibleWellComponent  
+    CollapsibleWellComponent,
+    SimpleModalComponent
 } from './common/index';
 
 import { appRoutes } from './routes';
@@ -53,7 +54,8 @@ declare let jQuery: Object;
         CreateSessionComponent,
         SessionListComponent,
         CollapsibleWellComponent,
-        DurationPipe
+        DurationPipe,
+        SimpleModalComponent
     ],
     providers: [
         EventService,
