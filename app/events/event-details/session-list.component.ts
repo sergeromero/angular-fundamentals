@@ -30,7 +30,6 @@ export class SessionListComponent implements OnInit, OnChanges {
     filterSessions(filter: string){
         if(filter === 'all'){
             this.visibleSessions = this.sessions.slice(0);
-            console.log(this.visibleSessions);
         }
         else{
             this.visibleSessions = this.sessions.filter(s => {

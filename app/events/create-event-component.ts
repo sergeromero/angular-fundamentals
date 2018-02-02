@@ -19,9 +19,10 @@ export class CreateEventComponent implements OnInit {
     };
 
     saveEvent(formValues){
-        this.eventService.saveEvent(formValues);
-        this.isDirty = false;
-        this.goToEvents();
+        this.eventService.saveEvent(formValues).subscribe(event => {
+            this.isDirty = false;
+            this.goToEvents();
+        });        
     };
 
     cancel(){
