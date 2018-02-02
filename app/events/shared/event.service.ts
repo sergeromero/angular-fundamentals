@@ -2,23 +2,23 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Subject, Observable } from 'rxjs/Rx';
 import { setTimeout } from 'core-js/library/web/timers';
 import { IEvent, ISession } from './event.model';
+import { Http, Response } from '@angular/http';
 
 @Injectable()
 export class EventService {
 
-    constructor() { }
+    constructor(private http: Http) { }
 
     getEvents(): Observable<IEvent[]>{
-      let subject = new Subject<IEvent[]>();
-
-      setTimeout(() => { subject.next(EVENTS); subject.complete(); },
-        2100);
-
-        return subject;
+      return this.http.get("http://localhost:8015/api/events").map((response: Response) => {
+        return <IEvent[]>response.json();
+      }).catch(this.handleError);
     };
 
-    getEventBy(id: number): IEvent{
-      return EVENTS.find(event => event.id === id);
+    getEventBy(id: number): Observable<IEvent>{
+      return this.http.get(`http://localhost:8015/api/events/${id}`).map((response: Response) => {
+        return <IEvent>response.json();
+      }).catch(this.handleError);
     };
 
     saveEvent(event){
@@ -52,6 +52,10 @@ export class EventService {
         emitter.emit(results);
       }, 100);
       return emitter;
+    };
+
+    handleError(error: Response){
+      return Observable.throw(error.statusText);
     };
 }
 

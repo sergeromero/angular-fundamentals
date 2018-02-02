@@ -17,16 +17,13 @@ export class EventDetailsComponent implements OnInit {
     constructor(private eventService: EventService, private route: ActivatedRoute) { };
 
     ngOnInit() {
-        this.route.params.forEach((params: Params) => {
-            this.event = this.eventService.getEventBy(+params['id']);
+        this.route.data.forEach((data) => {
+            this.event = data['event'];
             this.addMode = false;
             this.filterBy = 'all';
             this.sortBy = 'votes';
         });
-
-        //let id = +this.route.snapshot.params['id'];
-        //this.event = this.eventService.getEventBy(id);
-     };
+    };
 
      addSession() {
          this.addMode = true;
