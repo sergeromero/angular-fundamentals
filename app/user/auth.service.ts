@@ -33,6 +33,11 @@ export class AuthService {
     updateCurrentUser(firstName: string, lastName: string){
         this.currentUser.firstName = firstName;
         this.currentUser.lastName = lastName;
+
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers});
+        
+        return this.http.put(`${this.urlBase}/api/users/${this.currentUser.id}`, JSON.stringify(this.currentUser), options);
     }
 
     checkAuthenticationStatus(){
@@ -48,5 +53,14 @@ export class AuthService {
                 this.currentUser = currentUser;
             }
         }).subscribe();
+    }
+
+    logout(){
+        this.currentUser = undefined;
+        
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers});
+        
+        return this.http.post(`${this.urlBase}/api/logout`, JSON.stringify({}), options);
     }
 };
