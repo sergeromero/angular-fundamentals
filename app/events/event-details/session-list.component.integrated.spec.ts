@@ -63,6 +63,8 @@ describe('SessionListComponent', () => {
             fixture.detectChanges(); // Activates the bindings on the HTML template.
 
             expect(element.querySelector('[well-title]').textContent).toContain('Session 1');
+            //A second way to call this same assert is by using the debug element like so:
+            expect(debugElement.query(By.css('[well-title]')).nativeElement.textContent).toContain('Session 1');
         });
     });
 });
