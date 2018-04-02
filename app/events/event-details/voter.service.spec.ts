@@ -1,5 +1,5 @@
 import { RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { ISession } from '../shared/event.model';
 import { VoterService } from './voter.service';
 
