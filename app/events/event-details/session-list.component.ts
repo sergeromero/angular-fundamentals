@@ -1,68 +1,64 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { ISession } from '../shared/index';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AuthService } from '../../user/auth.service';
+import { ISession } from '../shared/index';
 import { VoterService } from './voter.service';
 
 @Component({
     selector: 'session-list',
-    templateUrl: './app/events/event-details/session-list.component.html'
+    templateUrl: './app/events/event-details/session-list.component.html',
 })
 
 export class SessionListComponent implements OnInit, OnChanges {
-    @Input() sessions: ISession[];
-    @Input() filterBy: string;
-    @Input() sortBy: string;
-    @Input() eventId: number;
-    visibleSessions: ISession[] = [];
-    
-    constructor(private voterService: VoterService, private auth: AuthService) { };
-    
-    ngOnInit() { };
+    @Input() public sessions: ISession[];
+    @Input() public filterBy: string;
+    @Input() public sortBy: string;
+    @Input() public eventId: number;
+    public visibleSessions: ISession[] = [];
 
-    ngOnChanges(): void {
-        if(!this.sessions) return;
+    constructor(private voterService: VoterService, private auth: AuthService) { }
+
+    public ngOnInit() { }
+
+    public ngOnChanges(): void {
+        if (!this.sessions) { return; }
 
         this.filterSessions(this.filterBy);
-        this.sortBy === 'name' 
+        this.sortBy === 'name'
             ? this.visibleSessions.sort(this.sortByNameAsc)
             : this.visibleSessions.sort(this.sortByVotesDesc);
-    };
+    }
 
-    filterSessions(filter: string){
-        if(filter === 'all'){
+    public filterSessions(filter: string) {
+        if (filter === 'all') {
             this.visibleSessions = this.sessions.slice(0);
-        }
-        else{
-            this.visibleSessions = this.sessions.filter(s => {
+        } else {
+            this.visibleSessions = this.sessions.filter((s) => {
                 return s.level.toLocaleLowerCase() === filter;
             });
         }
-    };
+    }
 
-    sortByNameAsc(x: ISession, y: ISession){
-        if(x.name > y.name) return 1;
-        else if(x.name === y.name) return 0;
-        else return -1;
-    };
+    public sortByNameAsc(x: ISession, y: ISession) {
+        if (x.name > y.name) { return 1; } else if (x.name === y.name) { return 0; } else { return -1; }
+    }
 
-    sortByVotesDesc(x: ISession, y: ISession){
+    public sortByVotesDesc(x: ISession, y: ISession) {
         return y.voters.length - x.voters.length;
-    };
+    }
 
-    toggleVote(session: ISession){
-        if(this.userHasVoted(session)){
+    public toggleVote(session: ISession) {
+        if (this.userHasVoted(session)) {
             this.voterService.deleteVoter(this.eventId, session, this.auth.currentUser.userName);
-        }
-        else{
+        } else {
             this.voterService.addVoter(this.eventId, session, this.auth.currentUser.userName);
         }
 
-        if(this.sortBy === 'votes'){
-            this.visibleSessions.sort(this.sortByVotesDesc)
+        if (this.sortBy === 'votes') {
+            this.visibleSessions.sort(this.sortByVotesDesc);
         }
-    };
+    }
 
-    userHasVoted(session: ISession){
+    public userHasVoted(session: ISession) {
         return this.voterService.userHasVoted(session, this.auth.currentUser.userName);
     }
-};
+}

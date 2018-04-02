@@ -1,50 +1,50 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { Subject, Observable } from 'rxjs/Rx';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Headers, Http, Request, RequestOptions, Response } from '@angular/http';
 import { setTimeout } from 'core-js/library/web/timers';
+import { Observable, Subject } from 'rxjs/Rx';
 import { IEvent, ISession } from './event.model';
-import { Http, Response, Headers, Request, RequestOptions } from '@angular/http';
 
 @Injectable()
 export class EventService {
 
     constructor(private http: Http) { }
 
-    getEvents(): Observable<IEvent[]>{
-      return this.http.get("http://localhost:8015/api/events").map((response: Response) => {
-        return <IEvent[]>response.json();
+    public getEvents(): Observable<IEvent[]> {
+      return this.http.get('http://localhost:8015/api/events').map((response: Response) => {
+        return response.json() as IEvent[];
       }).catch(this.handleError);
-    };
+    }
 
-    getEventBy(id: number): Observable<IEvent>{
+    public getEventBy(id: number): Observable<IEvent> {
       return this.http.get(`http://localhost:8015/api/events/${id}`).map((response: Response) => {
-        return <IEvent>response.json();
+        return response.json() as IEvent;
       }).catch(this.handleError);
-    };
+    }
 
-    saveEvent(event): Observable<IEvent>{      
-      let headers = new Headers({ 'Content-Type': 'application/json' });
-      let options = new RequestOptions({ headers: headers });
+    public saveEvent(event): Observable<IEvent> {
+      const headers = new Headers({ 'Content-Type': 'application/json' });
+      const options = new RequestOptions({ headers });
 
       return this.http.post('http://localhost:8015/api/events/new', JSON.stringify(event), options)
         .map((response: Response) => {
           return response.json();
         }).catch(this.handleError);
-    };
+    }
 
-    updateEvent(event): Observable<void> {
-      let headers = new Headers({ 'Content-Type': 'application/json' });
-      let options = new RequestOptions({ headers: headers });
+    public updateEvent(event): Observable<void> {
+      const headers = new Headers({ 'Content-Type': 'application/json' });
+      const options = new RequestOptions({ headers });
 
       return this.http.put('http://localhost:8015/api/updateevent', JSON.stringify(event), options).catch(this.handleError);
-    };
+    }
 
-    searchSessions(searchTerm: string){
+    public searchSessions(searchTerm: string) {
       return this.http.get(`http://localhost:8015/api/sessions/search/?search=${searchTerm}`).map((response: Response) => {
         return response.json();
       }).catch(this.handleError);
-    };
+    }
 
-    handleError(error: Response){
+    public handleError(error: Response) {
       return Observable.throw(error.statusText);
-    };
+    }
 }

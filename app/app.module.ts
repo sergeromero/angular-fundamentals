@@ -1,42 +1,43 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule  } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { BrowserModule  } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 import {
-    EventsListComponent,
-    EventThumbnailComponent,
-    EventService,
-    EventDetailsComponent,
     CreateEventComponent,
-    EventResolverService,
-    EventsListResolverService,
     CreateSessionComponent,
-    SessionListComponent,
     DurationPipe,
+    EventDetailsComponent,
+    EventResolverService,
+    EventService,
+    EventsListComponent,
+    EventsListResolverService,
+    EventThumbnailComponent,
+    SessionListComponent,
     UpvoteComponent,
+    ValidateLocationDirective,
     VoterService,
-    ValidateLocationDirective
 } from './events/index';
 
 import { EventsAppComponent } from './events-app.component';
 import { NavBarComponent } from './nav/nav.component';
 
-import { 
-    JQ_TOKEN, 
-    TOASTR_TOKEN, 
-    Toastr, 
+import {
     CollapsibleWellComponent,
+    IToastr,
+    JQ_TOKEN,
+    ModalTriggerDirective,
     SimpleModalComponent,
-    ModalTriggerDirective
+    TOASTR_TOKEN,
 } from './common/index';
 
-import { appRoutes } from './routes';
 import { Error404Component } from './errors/404.component';
+import { appRoutes } from './routes';
 import { AuthService } from './user/auth.service';
 
-declare let toastr: Toastr;
+declare let toastr: IToastr;
+// tslint:disable-next-line:ban-types
 declare let jQuery: Object;
 
 @NgModule({
@@ -45,8 +46,9 @@ declare let jQuery: Object;
         HttpModule,
         RouterModule.forRoot(appRoutes),
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
+    // tslint:disable-next-line:object-literal-sort-keys
     declarations: [
         EventsAppComponent,
         EventsListComponent,
@@ -62,7 +64,7 @@ declare let jQuery: Object;
         SimpleModalComponent,
         ModalTriggerDirective,
         UpvoteComponent,
-        ValidateLocationDirective
+        ValidateLocationDirective,
     ],
     providers: [
         EventService,
@@ -72,18 +74,19 @@ declare let jQuery: Object;
         { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
         EventsListResolverService,
         AuthService,
-        VoterService
+        VoterService,
     ],
     bootstrap: [EventsAppComponent],
 })
 export class AppModule { }
 
-function checkDirtyState(component: CreateEventComponent){
-    //This is for demonstration purposes, in a real application this function
-    //should be in its own file.
+function checkDirtyState(component: CreateEventComponent) {
+    // This is for demonstration purposes, in a real application this function
+    // should be in its own file.
 
-    if(component.isDirty)
+    if (component.isDirty) {
         return window.confirm('You have not saved this event, do you really want to cancel?');
-    
+    }
+
     return true;
 }

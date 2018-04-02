@@ -1,34 +1,34 @@
 import { Directive } from '@angular/core';
-import { Validator, FormGroup, NG_VALIDATORS } from '@angular/forms';
+import { FormGroup, NG_VALIDATORS, Validator } from '@angular/forms';
 
-@Directive({ 
+@Directive({
     selector: '[validate-location]',
-    providers: [{ provide: NG_VALIDATORS, useExisting: ValidateLocationDirective, multi: true}]
+    providers: [{ provide: NG_VALIDATORS, useExisting: ValidateLocationDirective, multi: true}],
 })
 export class ValidateLocationDirective implements Validator {
-    constructor() { };
+    constructor() { }
 
-    validate(formGroup: FormGroup): { [key: string]: any } {
-        if(this.isAddressValid(formGroup) || this.isOnlineUrlValid(formGroup)){
+    public validate(formGroup: FormGroup): { [key: string]: any } {
+        if (this.isAddressValid(formGroup) || this.isOnlineUrlValid(formGroup)) {
             return null;
         }
 
         return { validateLocation: false };
-    };
+    }
 
-    isAddressValid(formGroup: FormGroup): boolean{
-        let addressControl = formGroup.controls['address'];
-        let cityControl = formGroup.controls['city'];
-        let countryControl = formGroup.controls['country'];
+    public isAddressValid(formGroup: FormGroup): boolean {
+        const addressControl = formGroup.controls.address;
+        const cityControl = formGroup.controls.city;
+        const countryControl = formGroup.controls.country;
 
         return addressControl && addressControl.value
             && cityControl && cityControl.value
             && countryControl && countryControl.value;
-    };
+    }
 
-    isOnlineUrlValid(formGroup: FormGroup): boolean{
-        let onlineUrlControl = (<FormGroup>formGroup.root).controls['onlineUrl'];
+    public isOnlineUrlValid(formGroup: FormGroup): boolean {
+        const onlineUrlControl = (formGroup.root as FormGroup).controls.onlineUrl;
 
         return onlineUrlControl && onlineUrlControl.value;
-    };
-};
+    }
+}

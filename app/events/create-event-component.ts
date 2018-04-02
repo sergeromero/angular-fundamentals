@@ -4,28 +4,28 @@ import { EventService } from './shared/index';
 
 @Component({
     templateUrl: './app/events/create-event-component.html',
-    styleUrls: ['./app/events/create-event-component.css']
+    styleUrls: ['./app/events/create-event-component.css'],
 })
 
 export class CreateEventComponent implements OnInit {
-    isDirty: boolean = true;
-    
-    constructor(private eventService: EventService, private router: Router) { };
+    public isDirty: boolean = true;
 
-    ngOnInit() { };
+    constructor(private eventService: EventService, private router: Router) { }
 
-    goToEvents() {
+    public ngOnInit() { }
+
+    public goToEvents() {
         this.router.navigate(['/events']);
-    };
+    }
 
-    saveEvent(formValues){
-        this.eventService.saveEvent(formValues).subscribe(event => {
+    public saveEvent(formValues) {
+        this.eventService.saveEvent(formValues).subscribe((event) => {
             this.isDirty = false;
             this.goToEvents();
-        });        
-    };
+        });
+    }
 
-    cancel(){
+    public cancel() {
         this.goToEvents();
-    };
-};
+    }
+}
